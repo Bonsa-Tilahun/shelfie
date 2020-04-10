@@ -1,0 +1,30 @@
+.header-container {
+    background-color: #ab2a19;
+    height: 15vh;
+    width: 100%;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+}
+
+.logo-container {
+    margin-left: 5%;
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logo {
+    height: 8vh;
+    width: 8vw;
+    background-image: url('../../assets/logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
