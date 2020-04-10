@@ -38,17 +38,16 @@ class Form extends Component{
         }
         if(this.state.editMode){
             axios.put(`/api/product/${this.props.currentProduct.id}`, newPrdct).then(res => {
+                this.props.refreshInventory()
                 console.log('Product added: ', res.data)
             }).catch(err => alert(`ERROR: ${err}`))
         }else{
             axios.post('/api/product', newPrdct).then(res => {
+                this.props.refreshInventory()
                 console.log('Product added: ', res.data)
             }).catch(err => alert(`ERROR: ${err}`))
         }
         this.handleOnCancle()
-        this.props.refreshInventory()
-        // setTimeout(this.props.refreshInventory(),1000)
-        
     }
 
     componentDidUpdate=(prevProps)=>{
