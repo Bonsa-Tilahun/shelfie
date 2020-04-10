@@ -25,3 +25,4 @@ app.post('/api/product', prdctCtrl.addProduct) //used to add product
 app.get('/api/inventory', prdctCtrl.getProducts) //used to get all proucts
 app.delete('/api/product/:id', prdctCtrl.deleteProduct) //used to get all proucts
 app.put('/api/product/:id', prdctCtrl.editProduct) //used to get all proucts
+app.get('/api/product/:id', prdctCtrl.getProduct) //used to get all proucts

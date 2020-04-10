@@ -1,14 +1,21 @@
 import React from 'react'
 import Product from '../Product/Product.component'
 import axios from 'axios'
+import { useState,useEffect } from 'react'
+
+import './dashboard.styles.css'
 
 
 const Dashboard = (props) =>{
-    console.log("dashboard props: ", props)
+    let [inventory, setInventory]=useState([])
+    useEffect(()=>{
+        axios.get('/api/inventory').then(res => setInventory(inventory=res.data)).catch(err => alert(err.errMessage))
+    })
+    
     const deleteProduct=(id)=>{
-        axios.delete(`/api/product/${id}`).then(()=>props.refreshInventory()).catch(err =>alert(err))
+        axios.delete(`/api/product/${id}`).then(()=>{}).catch(err =>alert(err))
     }
-    const inventory = props.inventory.map(product => <Product 
+    const inventoryList = inventory.map(product => <Product 
                                                         key={product.id} 
                                                         product={product}
                                                         deleteProduct={deleteProduct}
@@ -17,7 +24,7 @@ const Dashboard = (props) =>{
                                         )
     return(
         <div className='dashboard-container'>
-            {inventory}
+            {inventoryList}
         </div>
     )
 }

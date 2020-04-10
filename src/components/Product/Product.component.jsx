@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link, withRouter} from 'react-router-dom'
 
 import './product.styles.css'
 
@@ -12,12 +13,16 @@ const Product = (props) =>{
                     <p className='product-price'>${props.product.price}</p>
                 </div>
                 <div className='product-action-container'>
+                    
                     <button onClick={()=>props.deleteProduct(props.product.id)} className='btn green'>DELETE</button>
-                    <button onClick={()=>props.setCurrentProduct(props.product)} className='btn green'>EDIT</button>
+                    
+                    <Link to={`/edit/${props.product.id}`}>
+                        <button className='btn green'>EDIT</button>
+                    </Link>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Product
+export default withRouter(Product)

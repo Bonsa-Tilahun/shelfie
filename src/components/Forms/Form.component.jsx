@@ -2,6 +2,7 @@ import React from 'react'
 import { Component } from 'react';
 import imgPlaceHolder from '../../assets/img_placeholder.jpeg'
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 import './form.styles.css'
 
@@ -13,6 +14,21 @@ class Form extends Component{
             price:0,
             imgurl:'',
             editMode: false
+        }
+    }
+    componentDidMount=()=>{
+        if(this.props.match.params.hasOwnProperty){
+            axios.get(`/api/product/${this.props.match.params.id}`).then(res =>{
+                console.log("to be updated product: ", res.data)
+                const {name, price, imgurl} = res.data[0]
+                
+                this.setState({
+                    name,
+                    price,
+                    imgurl,
+                    editMode:true
+                })
+            })
         }
     }
 
@@ -37,13 +53,13 @@ class Form extends Component{
             imgurl:this.state.imgurl,
         }
         if(this.state.editMode){
-            axios.put(`/api/product/${this.props.currentProduct.id}`, newPrdct).then(res => {
-                this.props.refreshInventory()
+            axios.put(`/api/product/${this.props.match.params.id}`, newPrdct).then(res => {
+                // this.props.refreshInventory()
                 console.log('Product added: ', res.data)
             }).catch(err => alert(`ERROR: ${err}`))
         }else{
             axios.post('/api/product', newPrdct).then(res => {
-                this.props.refreshInventory()
+                // this.props.refreshInventory()
                 console.log('Product added: ', res.data)
             }).catch(err => alert(`ERROR: ${err}`))
         }
@@ -51,16 +67,19 @@ class Form extends Component{
     }
 
     componentDidUpdate=(prevProps)=>{
-        if(prevProps.currentProduct === null || prevProps.currentProduct.id !== this.props.currentProduct.id){
+        console.log("this prop: ", this.props)
+        console.log("prevProp: ", prevProps)
+        if(prevProps.currentProduct === null || prevProps.match.params.id !== this.props.match.params.id){
             this.setState({
-                name:this.props.currentProduct.name,
-                price:this.props.currentProduct.price,
-                imgurl:this.props.currentProduct.imgurl,
-                editMode: true
+                name:'',
+                price:'',
+                imgurl:'',
+                editMode: false
             })
         }
     }
     render(){
+        console.log(this.props.match.params)
         return(
             <div className='form-container'>
                 <div className='form-image-container'>
@@ -78,10 +97,16 @@ class Form extends Component{
                     </label>
                 </div>
                 <div className="form-action-container">
-                    <button onClick={()=>this.handleOnCancle()} className='btn red'>CANCLE</button>
+                    <Link to='/'>
+                        <button onClick={()=>this.handleOnCancle()} className='btn red'>CANCLE</button>
+                    </Link>
                     {this.state.editMode ? 
-                        <button onClick={()=>this.handleSubmitProduct()} className='btn red'>SAVE CHANGES</button>:
-                        <button onClick={()=>this.handleSubmitProduct()} className='btn red'>ADD TO INVETORY</button>
+                        <Link to='/'>
+                            <button onClick={()=>this.handleSubmitProduct()} className='btn red'>SAVE CHANGES</button>
+                        </Link>:
+                        <Link to='/'>
+                            <button onClick={()=>this.handleSubmitProduct()} className='btn red'>ADD TO INVETORY</button>
+                        </Link>
                     }
                 </div>
 

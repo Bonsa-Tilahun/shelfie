@@ -36,5 +36,13 @@ module.exports = {
             console.log("ERROR: UNABLE TO UPDATE------", err)
             res.status(500).send(err)
         })
+    },
+    getProduct: (req, res) => {
+        const db = req.app.get('db')
+        const { id } = req.params
+        db.getProduct(id).then(product => res.status(200).send(product)).catch(err => {
+            console.log("ERROR: UNABLE TO GET PRODUCT------", err)
+            res.status(500).send(err)
+        })
     }
 }
